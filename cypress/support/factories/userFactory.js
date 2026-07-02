@@ -23,3 +23,16 @@ export function buildUser(overrides = {}) {
 export function buildAdminUser(overrides = {}) {
   return buildUser({ administrador: true, ...overrides });
 }
+
+/**
+ * Converte um usuário para o payload esperado pela API do serverest,
+ * onde o campo `administrador` é enviado como string ('true' | 'false').
+ */
+export function toUserApiPayload(user) {
+  return {
+    nome: user.nome,
+    email: user.email,
+    password: user.password,
+    administrador: String(user.administrador),
+  };
+}
