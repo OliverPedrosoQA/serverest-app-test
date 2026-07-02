@@ -1,0 +1,28 @@
+{
+  "name": "serverest-app-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:ui": "cypress run --spec \"cypress/e2e/ui/**/*.cy.js\"",
+    "test:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OliverPedrosoQA/serverest-app-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/OliverPedrosoQA/serverest-app-test/issues"
+  },
+  "homepage": "https://github.com/OliverPedrosoQA/serverest-app-test#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "cypress": "^15.18.0"
+  }
+}
