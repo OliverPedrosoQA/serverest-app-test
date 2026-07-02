@@ -4,7 +4,7 @@ const baseUrl = () => Cypress.env('apiUrl');
  * Camada de acesso ao recurso de Produtos (/produtos).
  * As rotas de escrita exigem token de administrador no header Authorization.
  */
-export const produtosApi = {
+export const productsApi = {
   /**
    * @param {object} body - { nome, preco, descricao, quantidade }
    * @param {string} [token] - authorization retornado no /login

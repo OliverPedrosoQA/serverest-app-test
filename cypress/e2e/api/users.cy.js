@@ -1,11 +1,11 @@
-import { usuariosApi } from '../../support/api/usuariosApi';
+import { usersApi } from '../../support/api/usersApi';
 import { buildUser, toUserApiPayload } from '../../support/factories/userFactory';
 
 describe('API - /usuarios', () => {
   it('deve cadastrar um usuário com sucesso (201)', () => {
     const user = buildUser();
 
-    usuariosApi.create(toUserApiPayload(user)).then((res) => {
+    usersApi.create(toUserApiPayload(user)).then((res) => {
       expect(res.status).to.eq(201);
       expect(res.body.message).to.eq('Cadastro realizado com sucesso');
       expect(res.body._id).to.be.a('string').and.not.to.be.empty;
@@ -16,9 +16,9 @@ describe('API - /usuarios', () => {
     const user = buildUser();
     const payload = toUserApiPayload(user);
 
-    usuariosApi.create(payload).its('status').should('eq', 201);
+    usersApi.create(payload).its('status').should('eq', 201);
 
-    usuariosApi.create(payload).then((res) => {
+    usersApi.create(payload).then((res) => {
       expect(res.status).to.eq(400);
       expect(res.body.message).to.eq('Este email já está sendo usado');
     });
@@ -28,10 +28,10 @@ describe('API - /usuarios', () => {
     const user = buildUser();
     const payload = toUserApiPayload(user);
 
-    usuariosApi.create(payload).then((res) => {
+    usersApi.create(payload).then((res) => {
       const id = res.body._id;
 
-      usuariosApi.getById(id).then((getRes) => {
+      usersApi.getById(id).then((getRes) => {
         expect(getRes.status).to.eq(200);
         expect(getRes.body).to.include({
           _id: id,
@@ -47,18 +47,18 @@ describe('API - /usuarios', () => {
     const user = buildUser();
     const payload = toUserApiPayload(user);
 
-    usuariosApi.create(payload).then((res) => {
+    usersApi.create(payload).then((res) => {
       const id = res.body._id;
 
       // Filtro por e-mail deve retornar exatamente o usuário criado.
-      usuariosApi.list({ email: payload.email }).then((listRes) => {
+      usersApi.list({ email: payload.email }).then((listRes) => {
         expect(listRes.status).to.eq(200);
         expect(listRes.body.quantidade).to.eq(1);
         expect(listRes.body.usuarios[0]._id).to.eq(id);
       });
 
       // Limpeza da massa criada.
-      usuariosApi.remove(id).then((delRes) => {
+      usersApi.remove(id).then((delRes) => {
         expect(delRes.status).to.eq(200);
         expect(delRes.body.message).to.eq('Registro excluído com sucesso');
       });

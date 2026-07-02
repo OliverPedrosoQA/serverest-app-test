@@ -51,16 +51,16 @@ npm run test:api
 │   │   │   └── product.cy.js
 │   │   └── api/                   # Cenários de API
 │   │       ├── login.cy.js
-│   │       ├── usuarios.cy.js
-│   │       └── produtos.cy.js
+│   │       ├── users.cy.js
+│   │       └── products.cy.js
 │   ├── fixtures/                  # Massa estática (ex.: imagem de produto)
 │   └── support/
 │       ├── commands.js           # Comandos customizados (createUserViaApi, uiLogin)
 │       ├── e2e.js                # Bootstrap do suporte
 │       ├── api/                  # Camada de acesso à API (services por recurso)
 │       │   ├── authApi.js
-│       │   ├── usuariosApi.js
-│       │   └── produtosApi.js
+│       │   ├── usersApi.js
+│       │   └── productsApi.js
 │       ├── factories/            # Fábricas de dados dinâmicos (faker)
 │       │   ├── userFactory.js
 │       │   └── productFactory.js
@@ -120,13 +120,13 @@ cenário e asserções — o equivalente ao POM para testes de API.
 - Usuário inexistente → 401
 - Corpo vazio → 400 com mensagens de obrigatoriedade
 
-**Usuários** (`usuarios.cy.js`)
+**Usuários** (`users.cy.js`)
 - Cadastro com sucesso → 201 + `_id`
 - E-mail duplicado → 400
 - Busca por ID reflete os dados enviados
 - Filtro da listagem por e-mail + exclusão da massa (limpeza)
 
-**Produtos** (`produtos.cy.js`)
+**Produtos** (`products.cy.js`)
 - Cadastro com token válido → 201 + `_id`
 - Busca por ID reflete os dados enviados
 - Nome duplicado → 400

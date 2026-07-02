@@ -1,6 +1,6 @@
 import { authApi } from '../../support/api/authApi';
-import { usuariosApi } from '../../support/api/usuariosApi';
-import { produtosApi } from '../../support/api/produtosApi';
+import { usersApi } from '../../support/api/usersApi';
+import { productsApi } from '../../support/api/productsApi';
 import { buildAdminUser, toUserApiPayload } from '../../support/factories/userFactory';
 import { buildProduct } from '../../support/factories/productFactory';
 
@@ -11,7 +11,7 @@ describe('API - /produtos', () => {
   // já que as rotas de escrita de produto exigem Authorization de admin.
   beforeEach(() => {
     const admin = buildAdminUser();
-    usuariosApi.create(toUserApiPayload(admin)).its('status').should('eq', 201);
+    usersApi.create(toUserApiPayload(admin)).its('status').should('eq', 201);
 
     authApi
       .login({ email: admin.email, password: admin.password })
@@ -24,7 +24,7 @@ describe('API - /produtos', () => {
   it('deve cadastrar um produto com token válido (201)', () => {
     const product = buildProduct();
 
-    produtosApi.create(product, token).then((res) => {
+    productsApi.create(product, token).then((res) => {
       expect(res.status).to.eq(201);
       expect(res.body.message).to.eq('Cadastro realizado com sucesso');
       expect(res.body._id).to.be.a('string').and.not.to.be.empty;
@@ -34,10 +34,10 @@ describe('API - /produtos', () => {
   it('deve buscar por ID o produto criado e refletir os dados enviados', () => {
     const product = buildProduct();
 
-    produtosApi.create(product, token).then((res) => {
+    productsApi.create(product, token).then((res) => {
       const id = res.body._id;
 
-      produtosApi.getById(id).then((getRes) => {
+      productsApi.getById(id).then((getRes) => {
         expect(getRes.status).to.eq(200);
         expect(getRes.body).to.include({
           _id: id,
@@ -53,9 +53,9 @@ describe('API - /produtos', () => {
   it('não deve cadastrar produto com nome duplicado (400)', () => {
     const product = buildProduct();
 
-    produtosApi.create(product, token).its('status').should('eq', 201);
+    productsApi.create(product, token).its('status').should('eq', 201);
 
-    produtosApi.create(product, token).then((res) => {
+    productsApi.create(product, token).then((res) => {
       expect(res.status).to.eq(400);
       expect(res.body.message).to.eq('Já existe produto com esse nome');
     });
@@ -64,7 +64,7 @@ describe('API - /produtos', () => {
   it('não deve cadastrar produto sem token de autenticação (401)', () => {
     const product = buildProduct();
 
-    produtosApi.create(product).then((res) => {
+    productsApi.create(product).then((res) => {
       expect(res.status).to.eq(401);
       expect(res.body.message).to.eq(
         'Token de acesso ausente, inválido, expirado ou usuário do token não existe mais'
@@ -75,10 +75,10 @@ describe('API - /produtos', () => {
   it('deve excluir um produto criado (200)', () => {
     const product = buildProduct();
 
-    produtosApi.create(product, token).then((res) => {
+    productsApi.create(product, token).then((res) => {
       const id = res.body._id;
 
-      produtosApi.remove(id, token).then((delRes) => {
+      productsApi.remove(id, token).then((delRes) => {
         expect(delRes.status).to.eq(200);
         expect(delRes.body.message).to.eq('Registro excluído com sucesso');
       });

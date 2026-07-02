@@ -5,7 +5,7 @@ const baseUrl = () => Cypress.env('apiUrl');
  * failOnStatusCode: false permite que os specs assertem sobre respostas
  * de erro (4xx) sem que o Cypress interrompa o teste.
  */
-export const usuariosApi = {
+export const usersApi = {
   /**
    * @param {object} body - { nome, email, password, administrador: 'true'|'false' }
    */

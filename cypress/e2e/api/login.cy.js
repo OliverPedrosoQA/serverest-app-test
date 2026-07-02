@@ -1,5 +1,5 @@
 import { authApi } from '../../support/api/authApi';
-import { usuariosApi } from '../../support/api/usuariosApi';
+import { usersApi } from '../../support/api/usersApi';
 import { buildAdminUser, toUserApiPayload } from '../../support/factories/userFactory';
 
 describe('API - POST /login', () => {
@@ -7,7 +7,7 @@ describe('API - POST /login', () => {
     const user = buildAdminUser();
 
     // Pré-condição: garante um usuário existente para autenticar.
-    usuariosApi.create(toUserApiPayload(user)).its('status').should('eq', 201);
+    usersApi.create(toUserApiPayload(user)).its('status').should('eq', 201);
 
     authApi.login({ email: user.email, password: user.password }).then((res) => {
       expect(res.status).to.eq(200);
@@ -18,7 +18,7 @@ describe('API - POST /login', () => {
 
   it('deve retornar 401 para senha incorreta', () => {
     const user = buildAdminUser();
-    usuariosApi.create(toUserApiPayload(user));
+    usersApi.create(toUserApiPayload(user));
 
     authApi.login({ email: user.email, password: 'senha-errada' }).then((res) => {
       expect(res.status).to.eq(401);
