@@ -49,11 +49,18 @@ npm run test:api
 │   │   │   ├── login.cy.js
 │   │   │   ├── register.cy.js
 │   │   │   └── product.cy.js
-│   │   └── api/                   # Cenários de API (a implementar)
+│   │   └── api/                   # Cenários de API
+│   │       ├── login.cy.js
+│   │       ├── usuarios.cy.js
+│   │       └── produtos.cy.js
 │   ├── fixtures/                  # Massa estática (ex.: imagem de produto)
 │   └── support/
 │       ├── commands.js           # Comandos customizados (createUserViaApi, uiLogin)
 │       ├── e2e.js                # Bootstrap do suporte
+│       ├── api/                  # Camada de acesso à API (services por recurso)
+│       │   ├── authApi.js
+│       │   ├── usuariosApi.js
+│       │   └── produtosApi.js
 │       ├── factories/            # Fábricas de dados dinâmicos (faker)
 │       │   ├── userFactory.js
 │       │   └── productFactory.js
@@ -101,7 +108,27 @@ npm run test:api
 - Validação de campos obrigatórios
 - Bloqueio de produto com nome duplicado
 
-## Testes de API
+## Cenários de API implementados
 
-Os cenários de API ficarão em `cypress/e2e/api/` e serão implementados a partir
-do contrato Swagger (https://serverest.dev/).
+Baseados no contrato Swagger (https://serverest.dev/). A camada de acesso fica em
+`cypress/support/api/` (um _service_ por recurso), mantendo os specs focados em
+cenário e asserções — o equivalente ao POM para testes de API.
+
+**Login** (`login.cy.js`)
+- Autenticação válida → 200 + token `Bearer`
+- Senha incorreta → 401
+- Usuário inexistente → 401
+- Corpo vazio → 400 com mensagens de obrigatoriedade
+
+**Usuários** (`usuarios.cy.js`)
+- Cadastro com sucesso → 201 + `_id`
+- E-mail duplicado → 400
+- Busca por ID reflete os dados enviados
+- Filtro da listagem por e-mail + exclusão da massa (limpeza)
+
+**Produtos** (`produtos.cy.js`)
+- Cadastro com token válido → 201 + `_id`
+- Busca por ID reflete os dados enviados
+- Nome duplicado → 400
+- Cadastro sem token → 401
+- Exclusão de produto → 200
